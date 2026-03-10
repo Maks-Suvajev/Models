@@ -1,17 +1,10 @@
 #include "TextureModel.h"
 
 TextureModel::TextureModel(gfx::TextureManager* manager, QObject* parent)
-    : QAbstractListModel(parent),
-      m_manager(manager)
+    : Model<gfx::Texture, gfx::TextureManager>(manager, parent)
 {
-    refreshTextures();
+    refreshModelView();
 }
-
-std::filesystem::path TextureModel::getCurrentTextureDirectory()
-{
-    return m_manager->getCurrentWorkingDirectory();
-}
-
 
 void TextureModel::loadTexture(std::string key)
 {
@@ -23,32 +16,18 @@ void TextureModel::unloadTexture(std::string key)
     m_manager->unloadTexture(key);
 }
 
-void TextureModel::refreshTextures()
+void TextureModel::refreshModelView()
 {
     beginResetModel();
 
-    std::vector<std::string> currActiveTextures;
-    m_manager->refreshTextures(); 
-
-    for (const auto& [key, texture] : m_manager->getMap())
-    {
-        currActiveTextures.push_back(key);
-    }
-
-    m_activeTextureKeys = currActiveTextures;
+    refreshElements();
 
     endResetModel();
 }
 
 int TextureModel::rowCount(const QModelIndex &parent) const
 {
-    return m_activeTextureKeys.size();
-}
-
-void TextureModel::updateTexturePath(std::string path)
-{
-    m_manager->updateTexturePath(path);
-    refreshTextures();
+    return m_activeKeys.size();
 }
 
 QString TextureModel::decodeTextureFormat(GLenum textureFormat) const
@@ -86,7 +65,7 @@ QString TextureModel::decodeTextureFormat(GLenum textureFormat) const
 
 QString TextureModel::formatToolTip(std::string key, gfx::Texture* texture) const
 {
-    if ( texture->systemSourcePath.parent_path() != m_manager->getCurrentWorkingDirectory())
+    if ( texture->systemSourcePath.parent_path().string() != m_manager->getCurrentActiveDirectory())
     {
         return QString(
             "<center><b>%1</b></center><br>"
@@ -103,7 +82,6 @@ QString TextureModel::formatToolTip(std::string key, gfx::Texture* texture) cons
         .arg(texture->height)
         .arg(texture->nrChannels)
         .arg(texture->systemSourcePath.string());
-
     };
 
     return QString(
@@ -141,7 +119,7 @@ QVariant TextureModel::data(const QModelIndex &index, int role) const
         return QVariant();
     }
 
-    auto key = m_activeTextureKeys[index.row()];
+    auto key = m_activeKeys[index.row()];
 
     const auto& texture = m_manager->getMap().at(key);
     
