@@ -16,14 +16,12 @@ class Model : public QAbstractListModel
         // Button functions
         void setActiveDirectory(std::string path);
 
-        virtual void refreshModelView() = 0;
+        void refreshModelView();
         void refreshElements();
 
-            
     protected:
-        virtual QString formatToolTip(std::string key, T* element) const = 0;
+        virtual QString formatToolTip(T* element) const = 0;
         virtual QBrush colourBackground(T* element) const = 0;
-
 
         TManager*                   m_manager;
         std::vector<std::string>    m_activeKeys; 
@@ -50,12 +48,9 @@ std::string Model<T, TManager>::getActiveDirectory()
     return m_manager->getCurrentActiveDirectory();
 }
 
-
-
 template<typename T, typename TManager>
 void Model<T, TManager>::refreshElements()
 {
-
     std::vector<std::string> currActiveKeys;
     m_manager->refreshElements(); 
 
@@ -65,6 +60,16 @@ void Model<T, TManager>::refreshElements()
     }
 
     m_activeKeys = currActiveKeys;
+}
+
+template<typename T, typename TManager>
+void Model<T, TManager>::refreshModelView()
+{
+    beginResetModel();
+
+    refreshElements();
+
+    endResetModel();
 }
 
 

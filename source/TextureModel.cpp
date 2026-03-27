@@ -16,15 +16,6 @@ void TextureModel::unloadTexture(std::string key)
     m_manager->unloadTexture(key);
 }
 
-void TextureModel::refreshModelView()
-{
-    beginResetModel();
-
-    refreshElements();
-
-    endResetModel();
-}
-
 int TextureModel::rowCount(const QModelIndex &parent) const
 {
     return m_activeKeys.size();
@@ -63,27 +54,18 @@ QString TextureModel::decodeTextureFormat(GLenum textureFormat) const
     }
 }
 
-QString TextureModel::formatToolTip(std::string key, gfx::Texture* texture) const
+std::string TextureModel::activeDirectoryWarning(gfx::Texture* texture) const
 {
-    if ( texture->systemSourcePath.parent_path().string() != m_manager->getCurrentActiveDirectory())
+    if (texture->systemSourcePath.parent_path() != std::filesystem::path(m_manager->getCurrentActiveDirectory()))
     {
-        return QString(
-            "<center><b>%1</b></center><br>"
-            "<b>Texture ID:</b> %2<br>"
-            "<b>Texture Format:</b> %3<br>"
-            "<b>Resolution:</b> %4x%5<br>"
-            "<b>Number of channels:</b> %6<br>"
-            "<b>Filepath:</b> %7<br>"
-            "<b style='color: #ffb2b2' > Not in current active directory.<br>"
-        ).arg(key)
-        .arg(texture->textureID)
-        .arg(decodeTextureFormat(texture->textureFormat))
-        .arg(texture->width)
-        .arg(texture->height)
-        .arg(texture->nrChannels)
-        .arg(texture->systemSourcePath.string());
-    };
+        return std::string("<b style='color: #ffb2b2' > Not in current active directory.<br>");
+    }
 
+    return std::string();
+}
+
+QString TextureModel::formatToolTip(gfx::Texture* texture) const
+{
     return QString(
         "<center><b>%1</b></center><br>"
         "<b>Texture ID:</b> %2<br>"
@@ -91,13 +73,15 @@ QString TextureModel::formatToolTip(std::string key, gfx::Texture* texture) cons
         "<b>Resolution:</b> %4x%5<br>"
         "<b>Number of channels:</b> %6<br>"
         "<b>Filepath:</b> %7<br>"
-    ).arg(key)
+        "%8"
+    ).arg(texture->name)
     .arg(texture->textureID)
     .arg(decodeTextureFormat(texture->textureFormat))
     .arg(texture->width)
     .arg(texture->height)
     .arg(texture->nrChannels)
-    .arg(texture->systemSourcePath.string());
+    .arg(texture->systemSourcePath.string())
+    .arg(activeDirectoryWarning(texture));
 }
 
 QBrush TextureModel::colourBackground(gfx::Texture* texture) const
@@ -129,7 +113,7 @@ QVariant TextureModel::data(const QModelIndex &index, int role) const
             return colourBackground(texture.get());
 
         case Qt::ToolTipRole:
-            return formatToolTip(key, texture.get());
+            return formatToolTip(texture.get());
 
         case NameRole:    
             return QString::fromStdString(texture->name);                                             

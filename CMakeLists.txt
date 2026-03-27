@@ -6,6 +6,10 @@ set(CMAKE_AUTORCC ON)
 add_library(ModelsLib
     source/TextureModel.cpp
     source/TextureModel.h
+    source/ShaderSourceModel.cpp
+    source/ShaderSourceModel.h
+    source/ShaderCompiledModel.cpp
+    source/ShaderCompiledModel.h
     ${CORE_MOC_FILES}
 )
 

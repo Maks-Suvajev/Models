@@ -24,7 +24,6 @@ class TextureModel : public Model<gfx::Texture, gfx::TextureManager>
         QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
         // Button functions
-        void refreshModelView() override;
         void loadTexture(std::string key);
         void unloadTexture(std::string key);
 
@@ -41,9 +40,12 @@ class TextureModel : public Model<gfx::Texture, gfx::TextureManager>
         };
         
     private:
+        std::string activeDirectoryWarning(gfx::Texture* texture) const;
         QString decodeTextureFormat(GLenum textureFormat) const;
-        QString formatToolTip(std::string key, gfx::Texture* element) const override;
+
+        QString formatToolTip(gfx::Texture* element) const override;
         QBrush colourBackground(gfx::Texture* texture) const override;
+
 };
 
 
