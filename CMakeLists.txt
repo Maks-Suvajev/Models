@@ -4,12 +4,14 @@ set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)
 
 add_library(ModelsLib
-    source/TextureModel.cpp
-    source/TextureModel.h
-    source/ShaderSourceModel.cpp
-    source/ShaderSourceModel.h
-    source/ShaderCompiledModel.cpp
-    source/ShaderCompiledModel.h
+    source/Texture/TextureModel.cpp
+    source/Texture/TextureModel.h
+    source/Shader/ShaderSourceModel.cpp
+    source/Shader/ShaderSourceModel.h
+    source/Shader/ShaderCompiledModel.cpp
+    source/Shader/ShaderCompiledModel.h
+    source/Material/MaterialModel.h
+    source/Material/MaterialModel.cpp
     ${CORE_MOC_FILES}
 )
 
@@ -24,4 +26,7 @@ target_link_libraries(ModelsLib
 
 target_include_directories(ModelsLib 
     PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/source
+    PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/source/Texture
+    PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/source/Shader
+    PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/source/Material
 )
