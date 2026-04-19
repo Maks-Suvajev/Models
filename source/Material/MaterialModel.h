@@ -9,7 +9,11 @@
 #include "MaterialTypes.h"
 #include "UIColours.h"
 
-class MaterialModel : public Model<gfx::MaterialProperties, gfx::MaterialManager>
+
+namespace gui
+{
+
+class MaterialModel : public Model<gfx::Material, gfx::MaterialManager>
 {
     Q_OBJECT
     
@@ -21,10 +25,10 @@ class MaterialModel : public Model<gfx::MaterialProperties, gfx::MaterialManager
         QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
         // Button functions
-        void createMaterial(std::string name, gfx::MaterialProperties&& materialInitProperties);
+        void createMaterial(std::string name, gfx::Material&& material);
         void deleteMaterial(std::string key);
 
-        enum TextureRole
+        enum MaterialRole
         {
             NameRole            = Qt::DisplayRole,
             ShaderIDRole        = Qt::UserRole + 1,
@@ -34,10 +38,11 @@ class MaterialModel : public Model<gfx::MaterialProperties, gfx::MaterialManager
         };
         
     private:
-        QString formatToolTip(gfx::MaterialProperties* material) const override;
-        QBrush colourBackground(gfx::MaterialProperties* material) const override;
+        QString formatToolTip(gfx::Material* material) const override;
+        QBrush colourBackground(gfx::Material* material) const override;
 
 };
 
+}
 
 #endif

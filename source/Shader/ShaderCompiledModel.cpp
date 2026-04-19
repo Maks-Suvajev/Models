@@ -1,6 +1,10 @@
 
 #include "ShaderCompiledModel.h"
 
+
+namespace gui
+{
+
 ShaderCompiledModel::ShaderCompiledModel(gfx::ShaderManager* manager, QObject* parent)
     : Model<gfx::Shader, gfx::ShaderManager>(manager, parent)
 {
@@ -116,4 +120,6 @@ QVariant ShaderCompiledModel::data(const QModelIndex &index, int role) const
         default:
             return QVariant();
     }
+}
+
 }

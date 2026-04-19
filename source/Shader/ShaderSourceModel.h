@@ -16,6 +16,10 @@
 
 #include "UIColours.h"
 
+
+namespace gui
+{
+
 class ShaderSourceModel : public Model<gfx::ShaderSource, gfx::ShaderManager>
 {
     Q_OBJECT
@@ -54,5 +58,5 @@ class ShaderSourceModel : public Model<gfx::ShaderSource, gfx::ShaderManager>
         QBrush colourBackground(gfx::ShaderSource* element) const override;
 };
 
-
+}
 #endif

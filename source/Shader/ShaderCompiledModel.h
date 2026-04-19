@@ -16,6 +16,10 @@
 
 #include "UIColours.h"
 
+
+namespace gui
+{
+
 class ShaderCompiledModel : public Model<gfx::Shader, gfx::ShaderManager>
 {
     Q_OBJECT
@@ -52,5 +56,6 @@ class ShaderCompiledModel : public Model<gfx::Shader, gfx::ShaderManager>
         
 };
 
+}
 
 #endif

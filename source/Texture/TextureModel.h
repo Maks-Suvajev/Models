@@ -12,7 +12,11 @@
 #include "TextureManager.h"
 #include "UIColours.h"
 
-class TextureModel : public Model<gfx::Texture, gfx::TextureManager>
+
+namespace gui
+{
+
+class TextureModel : public gui::Model<gfx::Texture, gfx::TextureManager>
 {
     Q_OBJECT
     
@@ -48,5 +52,5 @@ class TextureModel : public Model<gfx::Texture, gfx::TextureManager>
 
 };
 
-
+}
 #endif

@@ -1,14 +1,18 @@
 #include "MaterialModel.h"
 
+
+namespace gui
+{
+
 MaterialModel::MaterialModel(gfx::MaterialManager* manager, QObject* parent)
-    : Model<gfx::MaterialProperties, gfx::MaterialManager>(manager, parent)
+    : Model<gfx::Material, gfx::MaterialManager>(manager, parent)
 {
     refreshModelView();
 }
 
-void MaterialModel::createMaterial(std::string name, gfx::MaterialProperties&& materialInitProperties)
+void MaterialModel::createMaterial(std::string name, gfx::Material&& material)
 {
-    m_manager->registerElement(name, gfx::Material(std::move(materialInitProperties)));
+    m_manager->registerElement(name, std::move(material));
 }
 
 void MaterialModel::deleteMaterial(std::string key)
@@ -22,7 +26,7 @@ int MaterialModel::rowCount(const QModelIndex &parent) const
 }
 
 
-QString MaterialModel::formatToolTip(gfx::MaterialProperties* material) const
+QString MaterialModel::formatToolTip(gfx::Material* material) const
 {
     return QString(
         "<center><b>%1</b></center><br>"
@@ -37,7 +41,7 @@ QString MaterialModel::formatToolTip(gfx::MaterialProperties* material) const
     .arg(material->shininess);
 }
 
-QBrush MaterialModel::colourBackground(gfx::MaterialProperties* material) const
+QBrush MaterialModel::colourBackground(gfx::Material* material) const
 {
     return QBrush(positiveGreen); 
 }
@@ -51,7 +55,7 @@ QVariant MaterialModel::data(const QModelIndex &index, int role) const
 
     auto key = m_activeKeys[index.row()];
 
-    const auto material = m_manager->getMap().at(key)->getMaterialProperties();
+    auto material = m_manager->getMap().at(key).get();
     
     switch (role)
     {
@@ -81,4 +85,6 @@ QVariant MaterialModel::data(const QModelIndex &index, int role) const
     }
 
     return QVariant();
+}
+
 }

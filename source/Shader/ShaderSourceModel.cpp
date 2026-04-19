@@ -1,5 +1,7 @@
 #include "ShaderSourceModel.h"
 
+namespace gui
+{
 
 ShaderSourceModel::ShaderSourceModel(gfx::ShaderManager* manager, QObject* parent)
     : Model<gfx::ShaderSource, gfx::ShaderManager>(manager, parent)
@@ -165,4 +167,6 @@ QString ShaderSourceModel::formatToolTip(gfx::ShaderSource* shaderSource) const
     .arg(shaderSource->compiledID)
     .arg(shaderSource->systemSourcePath.string())
     .arg(activeDirectoryWarning(shaderSource));
+}
+
 }

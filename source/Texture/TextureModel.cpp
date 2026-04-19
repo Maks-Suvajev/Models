@@ -1,5 +1,9 @@
 #include "TextureModel.h"
 
+
+namespace gui
+{
+
 TextureModel::TextureModel(gfx::TextureManager* manager, QObject* parent)
     : Model<gfx::Texture, gfx::TextureManager>(manager, parent)
 {
@@ -142,6 +146,6 @@ QVariant TextureModel::data(const QModelIndex &index, int role) const
         default:
             return QVariant();
     }
+}
 
-    return QVariant();
 }

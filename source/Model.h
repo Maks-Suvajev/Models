@@ -4,6 +4,9 @@
 #include "ResourceManager.h"
 #include <QAbstractListModel>
 
+namespace gui
+{
+
 template<typename T, typename TManager = ResourceManager<T>>
 class Model : public QAbstractListModel
 {
@@ -14,7 +17,7 @@ class Model : public QAbstractListModel
         std::string getActiveDirectory();
 
         // Button functions
-        void setActiveDirectory(std::string path);
+        void setActiveDirectory(const std::string& path);
 
         void refreshModelView();
         void refreshElements();
@@ -36,10 +39,10 @@ Model<T, TManager>::Model(TManager* manager, QObject* parent)
 }
 
 template<typename T, typename TManager>
-void Model<T, TManager>::setActiveDirectory(std::string path)
+void Model<T, TManager>::setActiveDirectory(const std::string& path)
 {
     m_manager->setCurrentActiveDirectory(path);
-    m_manager->refreshElements();
+    refreshModelView();
 }
 
 template<typename T, typename TManager>
@@ -72,5 +75,5 @@ void Model<T, TManager>::refreshModelView()
     endResetModel();
 }
 
-
+}
 #endif
