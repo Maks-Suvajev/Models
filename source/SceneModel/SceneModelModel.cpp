@@ -35,13 +35,13 @@ namespace gui
                     return formatToolTip(sceneModel.get());
 
                 case NameRole:    
-                    return QString::fromStdString(sceneModel->getName());                 
+                    //return QString::fromStdString(sceneModel->getName());                 
                     
                 case IsLoadedRole:    
-                    return boolToString(sceneModel->isLoaded());          
+                    //return boolToString(sceneModel->isLoaded());          
 
                 case FilePathRole:    
-                    return QString::fromStdString(sceneModel->getFilePath().string());          
+                    //return QString::fromStdString(sceneModel->getFilePath().string());          
 
 
                 default:
@@ -64,10 +64,12 @@ namespace gui
 
         std::string SceneModelModel::activeDirectoryWarning(gfx::SceneModel* sceneModel) const
         {
+            /* 
             if (sceneModel->getFilePath().parent_path() != std::filesystem::path(m_manager->getCurrentActiveDirectory()))
             {
                 return std::string("<b style='color: #ffb2b2' > Not in current active directory.<br>");
             }
+            */
 
             return std::string();
         }
@@ -75,6 +77,7 @@ namespace gui
 
         QString SceneModelModel::formatToolTip(gfx::SceneModel* sceneModel) const
         {
+            /*
             return QString(
             "<center><b>%1</b></center><br>"
             "<b>Filepath:</b> %2<br>"
@@ -84,11 +87,15 @@ namespace gui
             .arg(sceneModel->getFilePath().string())
             .arg(boolToString(sceneModel->isLoaded()))
             .arg(activeDirectoryWarning(sceneModel));
+            */
+
+            return QString();
         }
 
 
         QBrush SceneModelModel::colourBackground(gfx::SceneModel* sceneModel) const
         {
+            /* 
             if (sceneModel->isLoaded())
             {
                 return QBrush(positiveGreen); // Green
@@ -97,5 +104,8 @@ namespace gui
             {
                 return QBrush(negativeRed); // Red
             }
+            */
+           
+            return QBrush();
         }
 }
