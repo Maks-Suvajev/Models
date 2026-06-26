@@ -14,6 +14,8 @@ add_library(ModelsLib
     source/Material/MaterialModel.cpp
     source/SceneModel/SceneModelModel.cpp
     source/SceneModel/SceneModelModel.h
+    source/Entity/EntityModel.cpp
+    source/Entity/EntityModel.h
     ${CORE_MOC_FILES}
 )
 
@@ -34,4 +36,5 @@ target_include_directories(ModelsLib
         ${CMAKE_CURRENT_SOURCE_DIR}/source/Shader
         ${CMAKE_CURRENT_SOURCE_DIR}/source/Material
         ${CMAKE_CURRENT_SOURCE_DIR}/source/SceneModel
+        ${CMAKE_CURRENT_SOURCE_DIR}/source/Entity
 )
