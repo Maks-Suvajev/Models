@@ -110,13 +110,13 @@ QVariant ShaderSourceModel::data(const QModelIndex &index, int role) const
         default:
             return QVariant();
     }
-
-    return QVariant();
 }
 
 int ShaderSourceModel::rowCount(const QModelIndex &parent) const
 {
-    return m_activeKeys.size();
+    Q_UNUSED(parent);
+
+    return static_cast<int>(m_activeKeys.size());
 }
 
 void ShaderSourceModel::compileSource(const std::string& key)

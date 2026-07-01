@@ -5,7 +5,8 @@ namespace gui
 {
 
 EntityModel::EntityModel(EntityManager* entityManager, QObject* parent)
-    : m_manager(entityManager)
+    : m_manager(entityManager),
+      QAbstractItemModel(parent)
 {
     refreshModelView();
 }
@@ -70,7 +71,7 @@ int EntityModel::rowCount(const QModelIndex &parent) const
 {
     if (!parent.isValid())
     {
-        return activeIDs.size();
+        return static_cast<int>(activeIDs.size());
     }
 
     EntityComponentNode* entityNode = static_cast<EntityComponentNode*>(parent.internalPointer());
@@ -80,6 +81,8 @@ int EntityModel::rowCount(const QModelIndex &parent) const
 
 int EntityModel::columnCount(const QModelIndex &parent) const
 {
+    Q_UNUSED(parent);
+
     if (m_manager == nullptr)
     {
         return 0;
@@ -110,7 +113,7 @@ void EntityModel::refreshElements()
         EntityComponentNode entityNode{ .entityID = entity,
                                         .type = std::type_index(typeid(Entity::Entity)) };
 
-        m_entityNodeIndex[entity] = m_nodes.size();
+        m_entityNodeIndex[entity] = static_cast<int>(m_nodes.size());
 
         m_nodes.push_back(std::move(entityNode));
 

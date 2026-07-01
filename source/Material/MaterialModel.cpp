@@ -20,9 +20,11 @@ void MaterialModel::deleteMaterial(std::string key)
     m_manager->deleteElement(key);
 }
 
-int MaterialModel::rowCount(const QModelIndex &parent) const
+int MaterialModel::rowCount(const QModelIndex& parent) const
 {
-    return m_activeKeys.size();
+    Q_UNUSED(parent);
+
+    return static_cast<int>(m_activeKeys.size());
 }
 
 
@@ -43,6 +45,8 @@ QString MaterialModel::formatToolTip(gfx::Material* material) const
 
 QBrush MaterialModel::colourBackground(gfx::Material* material) const
 {
+    Q_UNUSED(material);
+
     return QBrush(positiveGreen); 
 }
 
@@ -83,8 +87,6 @@ QVariant MaterialModel::data(const QModelIndex &index, int role) const
         default:
             return QVariant();
     }
-
-    return QVariant();
 }
 
 }

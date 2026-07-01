@@ -62,6 +62,8 @@ QString ShaderCompiledModel::formatToolTip(gfx::Shader* element) const
 
 QBrush ShaderCompiledModel::colourBackground(gfx::Shader* element) const
 {
+    Q_UNUSED(element);
+
     return QBrush(positiveGreen);  
 }
 
@@ -83,7 +85,9 @@ void ShaderCompiledModel::refreshCompiledView()
 
 int ShaderCompiledModel::rowCount(const QModelIndex &parent) const
 {
-    return m_activeKeys.size();
+    Q_UNUSED(parent);
+
+    return static_cast<int>(m_activeKeys.size());
 }
 
 QVariant ShaderCompiledModel::data(const QModelIndex &index, int role) const

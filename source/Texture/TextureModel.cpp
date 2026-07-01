@@ -22,7 +22,9 @@ void TextureModel::unloadTexture(std::string key)
 
 int TextureModel::rowCount(const QModelIndex &parent) const
 {
-    return m_activeKeys.size();
+    Q_UNUSED(parent);
+
+    return static_cast<int>(m_activeKeys.size());
 }
 
 QString TextureModel::decodeTextureFormat(GLenum textureFormat) const
